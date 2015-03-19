@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FirstLight Translation</title>
+<link href="style/common.css" rel="stylesheet" type="text/css">
+<link href="style/stylesheet.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script> 
+</head>
+
+<body>
+<div class="wrapper"> 
+    <div class="header">
+        <div class="h_wapper">      
+            <div class="logo"><a href="index_en.html"><img src="images/logo.png"></a></div>
+            
+            <div class="language">
+                <ul>
+                    <li><span><a href="index.html">中文</a></span> | <span><a href="index_en.html">English</a></span></li>
+                </ul>
+            </div>
+            <div class="t_nav"><a href="index_en.html" class="nav_position">HOME</a><a href="about_en.html">ABOUT US</a><a href="services_en.html">SERVICES</a><a href="contact_en.html">CONTACT US</a><a href="join_en.html">JOIN US</a><a href="login_en.html">LOGIN</a><div class="effect_en"></div></div>
+        </div>
+    </div>
+    <div class="wy-mod-banner">
+        <div id="_banners" class="banners">
+            <div class="banner banner4"> <img wid1th="100%" hei1ght="267" src="images/banner_1.jpg" /></div>
+            <div class="banner banner3"> <img wi1dth="100%" heig1ht="267" src="images/banner_2.jpg"/></div>
+            <div class="banner banner2"> <img wid1th="100%" heig1ht="267" src="images/banner_3.jpg"/> </div>
+        </div>
+        <div id="_focus" class="focus"> <a data-index="0" href="javascript:void(0);" class="on"><span class="bg-b"></span><span class="inner"></span></a> <a data-index="1" href="javascript:void(0);"><span class="bg-b"></span><span class="inner"></span></a> <a data-index="2" href="javascript:void(0);"><span class="bg-b"></span><span class="inner"></span></a> </div>
+    </div>
+    <div class="content">
+        <div class="f_1">
+            <ul class="f_1_1">
+                <li><span>About Us</span></li>
+            </ul>
+            <ul class="f_1_2">
+            Founded by professionals from both legal and publishing industries, FirstLight Translation is committed to providing top-notch customer service to first-class multinational law firms and investment banks. Our hands-on experience in legal, financial and linguistic domains is the cornerstone in addressing your....
+            </ul>
+            <ul class="more"><li><span><img src="images/more.png" width="7" height="8"  alt=""/></span><span><a href="about_en.html">read more</a></span></li></ul>
+        </div>
+        <div class="f_1">
+            <ul class="f_1_1">
+                <li><span>Services</span></li>
+            </ul>
+            <ul class="f_1_3">
+                <img src="images/pic_1.jpg" width="268" height="118"  alt=""/>
+            </ul>
+            <ul class="f_1_2">
+            With a team of highly accredited legal and financial translators and proofreaders, FirstLight Translation...
+            </ul>
+            <ul class="more"><li><span><img src="images/more.png" width="7" height="8"  alt=""/></span><span><a href="services_en.html">read more</a></span></li></ul>   
+        </div>
+        <div class="f_1">
+            <ul class="f_1_1">
+                <li><span>Join Us</span></li>
+            </ul>
+            <ul class="f_1_3">
+                <img src="images/pic_2.jpg" width="268" height="118"  alt=""/>
+            </ul>
+            <ul class="f_1_2">
+            At FirstLight Translation, we are looking for experienced language talents to join our team. If you have...
+            <ul class="more"><li><span><img src="images/more.png" width="7" height="8"  alt=""/></span><span><a href="join_en.html">read more</a></span></li></ul>   
+        </div>
+    </div>
+	<div class="push"></div>
+</div>
+<div class="footer">
+	<ul class="footer_warp">
+    	<li>Copyright © 2015 Shanghai Zhaofan Info-Tech Consulting Co., Ltd.</li>
+        <li>沪ICP备15004673号</li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+var glume = function(banners_id, focus_id){
+	this.$ctn = $('#' + banners_id);
+	this.$focus = $('#' + focus_id);
+	this.$adLis = null;
+	this.$btns = null;
+	this.switchSpeed = 5;//自动播放间隔(s)
+	this.defOpacity = 1;
+	this.crtIndex = 0;
+	this.adLength = 0;
+	this.timerSwitch = null;
+	this.init();
+};
+glume.prototype = {
+	fnNextIndex:function(){
+		return (this.crtIndex >= this.adLength-1)?0:this.crtIndex+1;
+	},
+	//动画切换
+	fnSwitch:function(toIndex){
+		if(this.crtIndex==toIndex){return;}
+		this.$adLis.css('zIndex', 0);
+		this.$adLis.filter(':eq('+this.crtIndex+')').css('zIndex', 2);
+		this.$adLis.filter(':eq('+toIndex+')').css('zIndex', 1);
+		this.$btns.removeClass('on');
+		this.$btns.filter(':eq('+toIndex+')').addClass('on');
+		var me = this;
+
+		$(this.$adLis[this.crtIndex]).animate({
+			opacity: 0
+		}, 1000, function() {
+			me.crtIndex = toIndex;
+			$(this).css({
+				opacity: me.defOpacity,
+				zIndex: 0
+			});
+		});
+	},
+	fnAutoPlay:function(){
+		this.fnSwitch(this.fnNextIndex());
+	},
+	fnPlay:function(){
+		var me = this;
+		me.timerSwitch = window.setInterval(function() {
+			me.fnAutoPlay();
+		},me.switchSpeed*1000);
+	},
+	fnStopPlay:function(){
+		window.clearTimeout(this.timerSwitch);
+		this.timerSwitch = null;
+	},
+
+	init:function(){
+		this.$adLis = this.$ctn.children();
+		this.$btns = this.$focus.children();
+		this.adLength = this.$adLis.length;
+
+		var me = this;
+		//点击切换
+		this.$focus.on('click', 'a', function(e) {
+			e.preventDefault();
+			var index = parseInt($(this).attr('data-index'), 10)
+			me.fnSwitch(index);
+		});
+		this.$adLis.filter(':eq('+ this.crtIndex +')').css('zIndex', 2);
+		this.fnPlay();
+
+		//hover时暂停动画
+		this.$ctn.hover(function() {
+			me.fnStopPlay();
+		}, function() {
+			me.fnPlay();
+		});
+
+		if($.browser.msie && $.browser.version < 7) {
+			this.$btns.hover(function() {
+				$(this).addClass('hover');
+			},function() {
+				$(this).removeClass('hover');
+			});
+		}
+	}
+};
+var player1 = new glume('_banners', '_focus');    
+</script>
+</body>
+</html>
